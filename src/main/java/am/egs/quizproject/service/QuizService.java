@@ -11,7 +11,7 @@ public class QuizService {
     private final QuestionService questionService;
     private final AnswerService answerService;
 
-    public QuizService(QuestionService questionService, AnswerService answerService){
+    public QuizService(QuestionService questionService, AnswerService answerService) {
         this.questionService = questionService;
         this.answerService = answerService;
     }

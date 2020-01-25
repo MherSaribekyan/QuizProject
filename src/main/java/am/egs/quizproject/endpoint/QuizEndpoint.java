@@ -12,6 +12,7 @@ public class QuizEndpoint {
     private final QuizService quizService;
 
     public QuizEndpoint(QuizService quizService) {
+
         this.quizService = quizService;
     }
 

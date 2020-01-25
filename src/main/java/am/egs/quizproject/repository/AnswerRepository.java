@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface AnswerRepository extends JpaRepository<Answer, Integer> {
 
-    public List<Answer> getAllById(long id);
+    List<Answer> getAnswersByQuestionId(long id);
 
 }

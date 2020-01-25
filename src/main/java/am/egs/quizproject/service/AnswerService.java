@@ -21,8 +21,8 @@ public class AnswerService {
         }
     }
 
-    public List<Answer> getAnswers(long requestId) {
-        return answerRepository.getAllById(requestId);
+    public List<Answer> getAnswers(long questionId) {
+        return answerRepository.getAnswersByQuestionId(questionId);
     }
 
 }

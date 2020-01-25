@@ -5,7 +5,9 @@ import am.egs.quizproject.model.Question;
 import am.egs.quizproject.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class QuestionService {
@@ -20,12 +22,12 @@ public class QuestionService {
         questionRepository.save(question);
     }
 
-    public List<Question> getAllQuestions(){
+    public List<Question> getAllQuestions() {
         return questionRepository.findAll();
     }
 
-    public Question findById(long id) throws QuestionNotFoundException{
-        return questionRepository.findById(((Integer) ((int) id))).orElseThrow(QuestionNotFoundException::new);
+    public Question getById(long id) throws QuestionNotFoundException {
+        return questionRepository.getById(id);
     }
 
     public List<Question> getQuestionsForTesting() {
@@ -37,13 +39,13 @@ public class QuestionService {
         long i = random.nextInt(((int) diff + 1));
         i += min;
         for (int j = 0; j < 20; j++) {
-            questions.add(questionRepository.getOne((Integer)((int)i)));
+            questions.add(questionRepository.getById(i));
         }
         return questions;
     }
 
 
     public void deleteById(long id) {
-        questionRepository.deleteById(((Integer) ((int) id)));
+        questionRepository.deleteById(id);
     }
 }

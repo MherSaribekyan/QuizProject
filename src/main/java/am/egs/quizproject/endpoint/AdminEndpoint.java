@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -26,6 +27,9 @@ public class AdminEndpoint {
     public ResponseEntity quiz(@RequestBody Quiz quiz) {
         try {
             questionService.saveQuestion(quiz.getQuestion());
+            for (int i = 0; i < quiz.getAnswers().size(); i++) {
+                quiz.getAnswers().get(i).setQuestion(quiz.getQuestion());
+            }
             answerService.saveAnswers(quiz.getAnswers());
             return ResponseEntity.ok(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -34,7 +38,7 @@ public class AdminEndpoint {
     }
 
     @GetMapping("/quiz")
-    public List<Quiz> quizList(){
+    public List<Quiz> quizList() throws QuestionNotFoundException {
         List<Quiz> quizList = null;
         List<Question> allQuestions = questionService.getAllQuestions();
         for (Question question : allQuestions) {
@@ -46,10 +50,11 @@ public class AdminEndpoint {
         return quizList;
     }
 
+    @Transactional
     @DeleteMapping("quiz/{id}")
-    public ResponseEntity deleteQuiz(@PathVariable ("id") long id){
+    public ResponseEntity deleteQuiz(@PathVariable("id") long id) {
         try {
-            questionService.findById(id);
+            questionService.getById(id);
         } catch (QuestionNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
